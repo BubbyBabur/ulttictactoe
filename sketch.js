@@ -112,8 +112,8 @@ function setup() {
                 ref = database.ref("games/" + keyinput.value());
                 console.log(keyinput.value());
                 ref.once("value").then(function(data){
-                    console.log(data.val().locked)
-                    if(data.val() == null || data.val().locked != "false"){
+
+                    if(data.val() == null){
 
                         message = "There's no game with that key.";
 
@@ -139,7 +139,11 @@ function setup() {
                         var updates = { locked: "true" };
                         realref.update(updates);
 
-                        thisxo = 2;
+                        if (data.val().locked != "false"){
+                            thisxo  = 3;
+                        } else {
+                            thisxo = 2;
+                        }
                     }
                 })
             }
@@ -290,7 +294,13 @@ function draw() {
             }
         }
 
-        message = (xo == thisxo) ? "It is your turn." : "";
+        if(thisxo == xo){
+            message = "It is now your turn."
+        } else if(thisxo == 3){
+            message = "You are a spectator."
+        } else {
+            message = "It is not your turn.";
+        }
         fill(0,0,0);
         noStroke();
         textAlign(CENTER);
