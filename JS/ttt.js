@@ -61,14 +61,14 @@ class ttt {
     configDatabase(){
 
         var firebaseConfig = {
-            apiKey: "AIzaSyA8gbXoMzSJNN4yz4Cah5esDzi-F2SEGpI",
-            authDomain: "ulttictactoe-cd8ac.firebaseapp.com",
-            databaseURL: "https://ulttictactoe-cd8ac.firebaseio.com",
-            projectId: "ulttictactoe-cd8ac",
-            storageBucket: "ulttictactoe-cd8ac.appspot.com",
-            messagingSenderId: "465241651265",
-            appId: "1:465241651265:web:6812602d0fc86adb67aec0",
-            measurementId: "G-JQXTCZ9E5B"
+            apiKey: "AIzaSyC2k_ziySptS7pmqJqwImAJ4d0kyraRG2U",
+            authDomain: "games-ff9af.firebaseapp.com",
+            databaseURL: "https://games-ff9af.firebaseio.com",
+            projectId: "games-ff9af",
+            storageBucket: "games-ff9af.appspot.com",
+            messagingSenderId: "218160036645",
+            appId: "1:218160036645:web:b66ecb7dd5a1ed1d41f8cc",
+            measurementId: "G-28S9QC4QYJ"
         };
 
         // Initialize Firebase
@@ -152,7 +152,7 @@ class ttt {
                 } else {
 
                     this.key = this.keyinput.val();
-                    this.ref = this.database.ref("games/" + this.keyinput.val());
+                    this.ref = this.database.ref("ulttictactoe/" + this.keyinput.val());
 
                     this.ref.once("value").then((data) => {
 
@@ -277,7 +277,7 @@ class ttt {
     }
 
     createRef(directory){
-        return this.database.ref("games/" + directory);
+        return this.database.ref("ulttictactoe/" + directory);
     }
 
     createGame(ref){
