@@ -7,6 +7,8 @@ canvas {
   display: block;
 }
 
+/* Big Buttons */
+
 .big-button {
     z-index: 1;
     position: absolute;
@@ -20,6 +22,59 @@ canvas {
     outline: 0;
 }
 
+.standard-big-button {
+  transform: translate(-50%, -50%) translate(0px, -10px);
+  box-shadow: #555555 0px 10px;
+  background-color: #A0A0A0;
+}
+
+.hover-big-button {
+  background-color: #D0D0D0;
+  transform: translate(-50%, -50%) translate(0px, -10px);
+  box-shadow: #555555 0px 10px;
+}
+
+.pressed-big-button {
+  transform: translate(-50%, -50%);
+  box-shadow: none;
+  background-color: #D0D0D0;
+}
+
+/* Back Button */
+
+.back-button {
+    z-index: 1;
+    position: absolute;
+    width: 10%;
+    height: 5%;
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+    transition: all 0.1s;
+    border: none;
+    border-radius: 10px;
+    outline: 0;
+}
+
+.standard-back-button {
+  transform: translate(-50%, -50%) translate(0px, -10px);
+  box-shadow: #555555 0px 10px;
+  background-color: #A0A0A0;
+}
+
+.hover-back-button {
+  background-color: #D0D0D0;
+  transform: translate(-50%, -50%) translate(0px, -10px);
+  box-shadow: #555555 0px 10px;
+}
+
+.pressed-back-button {
+  transform: translate(-50%, -50%);
+  box-shadow: none;
+  background-color: #D0D0D0;
+}
+
+/* Paired Buttons */
+
 .paired-button {
   z-index: 1;
   position: absolute;
@@ -31,16 +86,6 @@ canvas {
   border: none;
   border-radius: 10px;
   outline: 0;
-}
-
-#play-button {
-  left: 50%;
-  top: 40%;
-}
-
-#spectate-button {
-  left: 50%;
-  top: 40%;
 }
 
 .standard-paired-1-button {
@@ -79,6 +124,8 @@ canvas {
   background-color: #995651;
 }
 
+/* inputs */
+
 input {
   z-index: 1;
   position:absolute;
@@ -89,32 +136,16 @@ input {
   font-family: "Open Sans",sans-serif;
 }
 
-.standard-big-button {
-  transform: translate(-50%, -50%) translate(0px, -10px);
-  box-shadow: #555555 0px 10px;
-  background-color: #A0A0A0;
-}
-
-.hover-big-button {
-  background-color: #D0D0D0;
-  transform: translate(-50%, -50%) translate(0px, -10px);
-  box-shadow: #555555 0px 10px;
-}
-
-.pressed-big-button {
-  transform: translate(-50%, -50%);
-  box-shadow: none;
-  background-color: #D0D0D0;
-}
-
 #key-input{
   left: 50%;
-  top: 65%;
+  top: 50%;
 }
+
+/* Individual Button Layout */
 
 #submit-button {
   left: 50%;
-  top: 80%;
+  top: 65%;
 }
 
 #join-button {
@@ -127,4 +158,37 @@ input {
     top: 45%;
 }
 
+#play-button {
+  left: 50%;
+  top: 30%;
+}
 
+#spectate-button {
+  left: 50%;
+  top: 30%;
+}
+
+#back-button {
+  left: 50%;
+  top: 80%;
+}
+
+#X-button {
+  left: 50%;
+  top: 30%;
+}
+
+#O-button {
+  left: 50%;
+  top: 30%;
+}
+
+#name-input {
+  left: 50%;
+  top: 55%;
+}
+
+#name-button {
+  left: 50%;
+  top: 70%;
+}
