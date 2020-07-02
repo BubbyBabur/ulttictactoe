@@ -24,7 +24,11 @@ class ttt {
         this.message = "";
         this.locked = "false";
 
-        this.playing = true;
+        this.nameX = 0;
+        this.nameY = 0;
+
+        this.playing = {value: true};
+        this.configureXO = {value: true};
 
         this.imageObj = images;
 
@@ -87,93 +91,37 @@ class ttt {
         this.joinbutton.on("click", this.lambdaChangeSceneFromStart(-3,-2));
 
         this.keyinput = $("#key-input");
-        this.keyinput.hide();
+        this.nameinput = $("#name-input");
 
         this.submitbutton = $("#submit-button");
 
         this.playbutton = $("#play-button");
         this.spectatebutton = $("#spectate-button");
 
+        this.xbutton = $("#X-button");
+        this.obutton = $("#O-button");
+
         this.submitbutton.on("click", this.lambdaHandleSubmitButtonClick());
 
         this.configButtonJQuery();
+
+        this.backbutton = $("#back-button");
+
+        this.backbutton.on("click",this.lambdaChangeSceneFromStart("current",-3));
+
+        this.namebutton = $("#name-button");
+        this.namebutton.on("click",this.lambdaNameSubmitted())
 
     }
 
     configButtonJQuery(){
         $(() => {
 
-            $(".big-button").hover(function () {
-                $(this).removeClass("pressed-big-button standard-big-button").addClass("hover-big-button");
-            }, function () {
-                $(this).removeClass("pressed-big-button hover-big-button").addClass("standard-big-button");
-            })
+            new configJQueryButtonClass("big-button");
+            new configJQueryButtonClass("back-button");
 
-            $(".big-button").mousedown(function () {
-                $(this).removeClass("hover-big-button standard-big-button").addClass("pressed-big-button");
-            })
-            $(".big-button").mouseup(function () {
-                $(this).removeClass("pressed-big-button standard-big-button").addClass("hover-big-button");
-            })
-
-            let _thisPtr = this;
-            $("#play-button").hover(function(){
-                if(_thisPtr.playing){
-                    $(this).removeClass("pressed-paired-1-button standard-paired-1-button").addClass("hover-paired-1-button");
-                }
-            }, function(){
-                if (_thisPtr.playing) {
-                    $(this).removeClass("pressed-paired-1-button hover-paired-1-button").addClass("standard-paired-1-button");
-                }
-            })
-
-            $("#play-button").mousedown(function(){
-                if (_thisPtr.playing) {
-                    $(this).removeClass("standard-paired-1-button hover-paired-1-button").addClass("pressed-paired-1-button");
-                }
-            })
-
-            $("#play-button").mouseup(function () {
-                if (_thisPtr.playing) {
-                    $(this).removeClass("pressed-paired-1-button hover-paired-1-button").addClass("standard-paired-1-button");
-                }
-            })
-
-            $("#play-button").click(function(){
-                _thisPtr.playing = false;
-                $(this).removeClass("standard-paired-1-button hover-paired-1-button").addClass("pressed-paired-1-button");
-                $("#spectate-button").removeClass("pressed-paired-2-button hover-paired-2-button").addClass("standard-paired-2-button");
-            })
-
-            // Break
-
-            $("#spectate-button").hover(function () {
-                if (!_thisPtr.playing) {
-                    $(this).removeClass("pressed-paired-2-button standard-paired-2-button").addClass("hover-paired-2-button");
-                }
-            }, function () {
-                if (!_thisPtr.playing) {
-                    $(this).removeClass("pressed-paired-2-button hover-paired-2-button").addClass("standard-paired-2-button");
-                }
-            })
-
-            $("#spectate-button").mousedown(function () {
-                if (!_thisPtr.playing) {
-                    $(this).removeClass("standard-paired-2-button hover-paired-2-button").addClass("pressed-paired-2-button");
-                }
-            })
-
-            $("#spectate-button").mouseup(function () {
-                if (!_thisPtr.playing) {
-                    $(this).removeClass("pressed-paired-2-button hover-paired-2-button").addClass("standard-paired-2-button");
-                }
-            })
-
-            $("#spectate-button").click(function () {
-                _thisPtr.playing = true;
-                $(this).removeClass("standard-paired-2-button hover-paired-2-button").addClass("pressed-paired-2-button");
-                $("#play-button").removeClass("pressed-paired-1-button hover-paired-1-button").addClass("standard-paired-1-button");
-            })
+            new ToggleButtons(this.playing,"#play-button","#spectate-button");
+            new ToggleButtons(this.configureXO, "#X-button", "#O-button");
 
         })
     }
@@ -186,13 +134,14 @@ class ttt {
 
                 if (this.completed == -1) { // If creating
 
+                    this.key = this.keyinput.val();
                     this.ref = this.createRef(this.keyinput.val());
 
                     this.ref.once("value").then((data) => {
 
                         if (data.val() == null) {
 
-                            this.lambdaChangeSceneFromStart(-1, 0)();
+                            this.lambdaChangeSceneFromStart(-1, -4)();
                             this.createGame(this.ref);
 
                         } else {
@@ -202,6 +151,7 @@ class ttt {
 
                 } else {
 
+                    this.key = this.keyinput.val();
                     this.ref = this.database.ref("games/" + this.keyinput.val());
 
                     this.ref.once("value").then((data) => {
@@ -210,15 +160,16 @@ class ttt {
 
                             this.message = "There's no game with that key.";
                         
-                        } else if(this.playing) {// trying to play
+                        } else if(this.playing.value) { // trying to play
 
                             if (data.val().locked == "true") { // if locked
                                 this.message = "That game already has 2 players.";
                             } else {
-                                this.thisxo = 2;
+
+                                this.thisxo = data.val().joinXO;
                                 this.lockGame(this.ref);
 
-                                this.lambdaChangeSceneFromStart(-2, 0)();
+                                this.lambdaChangeSceneFromStart(-2, -4)();
                                 this.setRetrieval(this.ref);
                             }
 
@@ -228,7 +179,12 @@ class ttt {
                             this.setRetrieval(this.ref);
 
                             this.thisxo = 3;
-                            this.addSpectator(this.ref);
+
+                            var data = {
+                                spectators: data.val().spectators + 1
+                            }
+
+                            this.ref.update(data);
 
                             
                         }
@@ -245,17 +201,26 @@ class ttt {
     lambdaChangeSceneFromStart(fromScene,toScene){
         return () => {
             
-            if(fromScene == -3){
-                this.joinbutton.hide(); 
+            if(fromScene == -3 || fromScene == "current"){
+                this.joinbutton.hide();
                 this.createbutton.hide(); 
             }
-            if (fromScene == -1 || fromScene == -2) {
+            if (fromScene == -1 || fromScene == -2 || fromScene == "current") {
                 this.keyinput.hide();
                 this.submitbutton.hide();
+                this.backbutton.hide();
             }
-            if (fromScene == -2) {
+            if (fromScene == -2 || fromScene == "current") {
                 this.playbutton.hide();
                 this.spectatebutton.hide();
+            }
+            if (fromScene == -1 || fromScene == "current"){
+                this.xbutton.hide();
+                this.obutton.hide();
+            }
+            if (fromScene == -4 || fromScene == "current"){
+                this.nameinput.hide();
+                this.namebutton.hide();
             }
 
             this.completed = toScene;
@@ -263,6 +228,7 @@ class ttt {
             if(toScene == -1 || toScene == -2){
                 this.keyinput.show(); 
                 this.submitbutton.show();
+                this.backbutton.show();
             }
             if(toScene == -2){
                 this.playbutton.show(); 
@@ -272,7 +238,37 @@ class ttt {
                 this.joinbutton.show();
                 this.createbutton.show();
             }
+            if (toScene == -1) {
+                this.xbutton.show();
+                this.obutton.show();
+            }
+            if (toScene == -4) {
+                this.nameinput.show();
+                this.namebutton.show();
+            }
 
+            this.message = "";
+
+        }
+    }
+    
+    lambdaNameSubmitted(){
+        return () => {
+            let name = this.nameinput.val();
+
+            let data;
+            if(this.thisxo == 1){
+                data = {
+                    nameX: name
+                }
+            } else {
+                data = {
+                    nameO: name
+                }
+            }
+            this.ref.update(data);
+
+            this.lambdaChangeSceneFromStart(-4,0)();
         }
     }
 
@@ -286,18 +282,22 @@ class ttt {
 
     createGame(ref){
 
+        this.thisxo  = (this.configureXO.value) ? 1 : 2;
+        let toJoin = (this.configureXO.value) ? 2 : 1;
+
         var data = {
             board: this.board,
             selected: this.selected,
             selectingBig: this.selectingBig,
             xo: 1,
             locked: this.locked,
-            spectators: 0
+            spectators: 0,
+            joinXO: toJoin,
+            nameX: 0,
+            nameO: 0
         }
 
         ref.set(data);
-
-        this.thisxo = 1;
 
         this.setRetrieval(ref);
 
@@ -314,6 +314,9 @@ class ttt {
             this.board = v.board;
             this.locked = v.locked;
             this.spectators = v.spectators;
+            this.nameX = v.nameX;
+            this.nameO = v.nameO;
+
             this.updatebigboard();
 
         });
@@ -493,7 +496,32 @@ class ttt {
             fill(0, 0, 0);
             noStroke();
             textAlign(CENTER);
-            text(this.message, 200, 20)
+            text(this.message, 200, 17)
+
+            if(this.thisxo == 1){
+                this.message = "You are X";
+            } else if(this.thisxo == 2){
+                this.message = "You are O";
+            } else {
+                this.message = ""
+            }
+            text(this.message, 200, 40);
+
+            if(this.thisxo == 1 && this.nameO != 0){
+                this.message = "You are playing " + this.nameO;
+            } else if(this.thisxo == 2 && this.nameX != 0){
+                this.message = "You are playing " + this.nameX;
+            } else if(this.thisxo < 3){
+                this.message = "The opponent has not joined yet."
+            } else if(this.nameX != 0 && this.nameO != 0){
+                this.message = this.nameX + " is X and " + this.nameO + " is O.";
+            } else {
+                this.message = "The players aren't all in yet."
+            }
+            text(this.message, 200, 370);
+
+            this.message = "The key for this game is: " + this.key;
+            text(this.message,200,390);
 
         } else {
             textAlign(CENTER);
@@ -509,12 +537,25 @@ class ttt {
                 case -2: // join
                     textSize(30);
                     textFont("Open Sans");
-                    text("Joining a Game", 200, 100);
+                    text("Joining a Game", 200, 50);
                     textSize(15);
-                    text("Type in your key:", 200, 220);
+                    text( (this.playing.value) ? "You are joining to play." : "You are joining to spectate.", 200, 80);
+                    text("Type in your key:", 200, 170);
                     break;
                 case -1: // create
+                    textSize(30);
+                    textFont("Open Sans");
+                    text("Creating a Game", 200, 50);
+                    textSize(15);
+                    text((this.configureXO.value) ? "You are X and you'll go first." : "You are O and you'll go second.", 200, 80);
+                    text("Type in a key:", 200, 170);
                     break;
+                case -4: //name
+                    textSize(30);
+                    textFont("Open Sans");
+                    text("Type in your name.", 200, 100);
+                    textSize(15);
+                    text("Or username. Or rickroll. Or whatever.", 200, 170);
             }
 
         }
@@ -596,14 +637,6 @@ class ttt {
             this.completed = temp[2][0];
         }
 
-    }
-
-    addSpectator(ref){
-        var data = {
-            spectators: data.val().spectators + 1
-        }
-
-        ref.update(data);
     }
 
     lockGame(ref) {
