@@ -19,27 +19,28 @@
 
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
-    
-    <!--script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyA8gbXoMzSJNN4yz4Cah5esDzi-F2SEGpI",
-            authDomain: "ulttictactoe-cd8ac.firebaseapp.com",
-            databaseURL: "https://ulttictactoe-cd8ac.firebaseio.com",
-            projectId: "ulttictactoe-cd8ac",
-            storageBucket: "ulttictactoe-cd8ac.appspot.com",
-            messagingSenderId: "465241651265",
-            appId: "1:465241651265:web:6812602d0fc86adb67aec0",
-            measurementId: "G-JQXTCZ9E5B"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-        console.log(firebase);
-    </script-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
 </head>
 <body>
-    <script src="sketch.js"></script>
+    <script src="JS/imagewrapper.js"></script>
+    <script src="JS/ttt.js"></script>
+    <script src="JS/sketch.js"></script>
+
+    <div id="canvas-wrapper"></div>
+
+    <button hidden id="submit-button" class="big-button standard-big-button">Submit</button>
+    <button hidden id="join-button" class="big-button standard-big-button">Join</button>
+    <button hidden id="create-button" class="big-button standard-big-button">Create</button>
+
+    <button hidden id="play-button" class="paired-button standard-paired-1-button">Play</button>
+    <button hidden id="spectate-button" class="paired-button pressed-paired-2-button">Spectate</button>
+
+    <input id="key-input">
+
 </body>
 </html>

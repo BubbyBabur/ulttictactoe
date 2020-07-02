@@ -3,5 +3,128 @@ html, body {
   padding: 0;
 }
 canvas {
+  position: absolute;
   display: block;
 }
+
+.big-button {
+    z-index: 1;
+    position: absolute;
+    width: 20%;
+    height: 10%;
+    font-family: "Open Sans", sans-serif;
+    font-size: 50px;
+    transition: all 0.1s;
+    border: none;
+    border-radius: 10px;
+    outline: 0;
+}
+
+.paired-button {
+  z-index: 1;
+  position: absolute;
+  width: 15%;
+  height: 7%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 40px;
+  transition: all 0.1s;
+  border: none;
+  border-radius: 10px;
+  outline: 0;
+}
+
+#play-button {
+  left: 50%;
+  top: 40%;
+}
+
+#spectate-button {
+  left: 50%;
+  top: 40%;
+}
+
+.standard-paired-1-button {
+  transform: translate(-100%, -50%) translate(0px, -10px);
+  box-shadow: #395480 0px 10px;
+  background-color: #639fff;
+}
+
+.hover-paired-1-button {
+  background-color: #abcbff;
+  transform: translate(-100%, -50%) translate(0px, -10px);
+  box-shadow: #395480 0px 10px;
+}
+
+.pressed-paired-1-button {
+  transform: translate(-100%, -50%);
+  box-shadow: none;
+  background-color: #535199;
+}
+
+.standard-paired-2-button {
+  transform: translate(0%, -50%) translate(0px, -10px);
+  box-shadow: #8a4242 0px 10px;
+  background-color: #ff4545;
+}
+
+.hover-paired-2-button {
+  background-color: #ffa1a1;
+  transform: translate(0%, -50%) translate(0px, -10px);
+  box-shadow: #8a4242 0px 10px;
+}
+
+.pressed-paired-2-button {
+  transform: translate(0%, -50%);
+  box-shadow: none;
+  background-color: #995651;
+}
+
+input {
+  z-index: 1;
+  position:absolute;
+  width: 20%;
+  height: 50px;
+  font-size: 40px;
+  transform: translate(-50%, -50%);
+  font-family: "Open Sans",sans-serif;
+}
+
+.standard-big-button {
+  transform: translate(-50%, -50%) translate(0px, -10px);
+  box-shadow: #555555 0px 10px;
+  background-color: #A0A0A0;
+}
+
+.hover-big-button {
+  background-color: #D0D0D0;
+  transform: translate(-50%, -50%) translate(0px, -10px);
+  box-shadow: #555555 0px 10px;
+}
+
+.pressed-big-button {
+  transform: translate(-50%, -50%);
+  box-shadow: none;
+  background-color: #D0D0D0;
+}
+
+#key-input{
+  left: 50%;
+  top: 65%;
+}
+
+#submit-button {
+  left: 50%;
+  top: 80%;
+}
+
+#join-button {
+    left: 50%;
+    top: 70%;
+}
+
+#create-button {
+    left: 50%;
+    top: 45%;
+}
+
+
