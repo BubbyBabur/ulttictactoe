@@ -344,7 +344,7 @@ class ttt {
             mx += 200;
             my += 200;
 
-            this.mouseHoveredOver = [floor((mx - 50) / 100), floor((my - 50) / 100), floor(((mx - 50) % 100 - 10) / 30), floor(((my - 50) % 100 - 10) / 30)];
+            this.mouseHoveredOver = [floor((mx - 50) / 100), floor((my - 50) / 100), floor(((mx - 50) % 100 - 5) / 30), floor(((my - 50) % 100 - 5) / 30)];
             noFill();
             switch (this.completed) {
                 case 1:
@@ -368,6 +368,7 @@ class ttt {
             imageMode(CENTER);
             image(this.imageObj.getImage("images/eye.png"), 15, 15, 20, 10);
             fill(0, 0, 0);
+            noStroke();
             textSize(15);
             text(this.spectators, 30, 20);
 
